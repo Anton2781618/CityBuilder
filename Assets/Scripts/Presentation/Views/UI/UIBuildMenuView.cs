@@ -2,53 +2,40 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
 using System;
+using VContainer;
 
 public class UIBuildMenuView : MonoBehaviour
 {
-    private VisualElement _ui;
+    [Inject] private List<BuildingConfig> _buildingConfigs;
+    private VisualElement _root;
     private VisualElement _menu;
+    public event Action<BuildingConfig> OnBuildingSelected;
 
-    private List<Button> _buildingButtons = new();
-    
     void Awake()
     {
-        _ui = GetComponent<UIDocument>().rootVisualElement;
+        _root = GetComponent<UIDocument>().rootVisualElement;
+        _menu = _root.Q<VisualElement>("Menu");
 
-        _menu = _ui.Q<VisualElement>("Menu");
-
-        SetBuildingNames(new List<string> { "House", "Farm", "Mine"});
+        CreateBuildingButtons(_buildingConfigs);
     }
 
     /// <summary>
-    /// Генерирует кнопки зданий по списку названий
+    /// Генерирует кнопки зданий по списку BuildingConfig
     /// </summary>
-    public void SetBuildingNames(List<string> buildingNames)
+    public void CreateBuildingButtons(List<BuildingConfig> configs)
     {
-        // Очищаем старые кнопки
-        foreach (var btn in _buildingButtons)
+        foreach (var config in configs)
         {
-            _menu.Remove(btn);
-        }
+            var btn = new Button { text = config.Type.ToString() };
 
-        _buildingButtons.Clear();
-
-        foreach (var name in buildingNames)
-        {
-            var btn = new Button { text = name };
-
-            btn.clicked += () => OnBuildingButtonClicked(name);
+            btn.clicked += () => OnBuildingButtonClicked(config);
 
             _menu.Add(btn);
-        
-            _buildingButtons.Add(btn);
         }
     }
 
-    public event Action<string> OnBuildingSelected;
-
-    private void OnBuildingButtonClicked(string buildingName)
+    private void OnBuildingButtonClicked(BuildingConfig config)
     {
-        Debug.Log($"Выбрано здание: {buildingName}");
-        OnBuildingSelected?.Invoke(buildingName);
+        OnBuildingSelected?.Invoke(config);
     }
 }

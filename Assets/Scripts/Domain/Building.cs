@@ -7,6 +7,7 @@ namespace Domain
     /// </summary>
     public enum BuildingType
     {
+        None,
         House,
         Farm,
         Mine

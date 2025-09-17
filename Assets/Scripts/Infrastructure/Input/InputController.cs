@@ -14,6 +14,8 @@ namespace Infrastructure.Input
         //---------------------------------------------------
         [Inject] [SerializeField] private InputSystem_Actions _inputActions;
         [Inject] private IPublisher<CellHoveredEvent> _cellHoveredPublisher;
+        [Inject] private IPublisher<CellClickedEvent> _cellClickedPublisher;
+
 
         //---------------------------------------------------
         [Inject] private LayerMask _cellLayerMask;
@@ -35,12 +37,13 @@ namespace Infrastructure.Input
 
         void OnEnable()
         {
-            // _inputActions.Player.Move.performed += OnMove;
+            // Подписка на событие левой кнопки мыши (например, Player.SelectCell)
+            _inputActions.Player.Attack.performed += OnSelectCell;
         }
 
         void OnDisable()
         {
-            // _inputActions.Player.Move.performed -= OnMove;
+            _inputActions.Player.Attack.performed -= OnSelectCell;
         }
 
         private void Update()
@@ -119,15 +122,7 @@ namespace Infrastructure.Input
         // Input System: выбор клетки (клик)
         public void OnSelectCell(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
-                Ray ray = _camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    // TODO: определить клетку по позиции hit.point
-                    Debug.Log($"Выбрана клетка: {hit.point}");
-                }
-            }
+            _cellClickedPublisher.Publish(new CellClickedEvent(_lastHoveredCell));
         }
 
         // Input System: горячие клавиши (1/2/3/R/Del)

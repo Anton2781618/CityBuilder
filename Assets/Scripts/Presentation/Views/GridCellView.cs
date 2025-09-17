@@ -9,12 +9,18 @@ namespace Presentation.Views
     public class GridCellView : MonoBehaviour
     {
         [SerializeField] private MeshRenderer _rendererHighlighter;
-        public GridPosition GridPosition{ get; private set; }
+        public GridPosition GridPosition { get; private set; }
+        public GameObject BuildingGo = null;
+        public BuildingConfig BuildingConfig { get; private set; }
 
 
         public void Setup(GridPosition position)
         {
             GridPosition = position;
+        }
+        public void SetBuildingConfig(BuildingConfig config)
+        {
+            BuildingConfig = config;
         }
 
         public void HighlighteCell(bool enabled, Color color = default)

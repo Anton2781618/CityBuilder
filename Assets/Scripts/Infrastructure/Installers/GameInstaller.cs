@@ -5,6 +5,7 @@ using Application;
 using MessagePipe;
 using UnityEngine;
 using Presentation.Views;
+using System.Collections.Generic;
 
 namespace Infrastructure.Installers
 {
@@ -19,6 +20,11 @@ namespace Infrastructure.Installers
         [SerializeField] private GridView _gridView;
         [SerializeField] private Vector2 _gridSize = new(10, 10);
         [SerializeField] private LayerMask _gridLayerMask;
+
+        //---------------------------------------------------------
+        [Header("Настройки Строительства")]
+        [SerializeField] private List<BuildingConfig> _buildingConfigs;
+
         //---------------------------------------------------------
         //!---------------------------------------------------------
 
@@ -32,6 +38,10 @@ namespace Infrastructure.Installers
 
             // меню строительства
             builder.RegisterComponentInHierarchy<UIBuildMenuView>();
+            builder.RegisterInstance(_buildingConfigs);
+
+            // панель информации о здании
+            builder.RegisterComponentInHierarchy<UIBuildingInfoPanel>();
             
             // Экономика 
             builder.RegisterInstance(new PlayerEconomy(1000));

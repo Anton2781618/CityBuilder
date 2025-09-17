@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/Scripts/Presentation/UXML/BuildMenu/build-menu.uss?fileID=7433441132597879392&amp;guid=e5d488d41c5d876468adc4700426e647&amp;type=3#build-menu" />
+    <ui:VisualElement name="Panel" class="panel hide" style="flex-grow: 1; align-items: flex-end; justify-content: space-between;">
+        <ui:VisualElement name="Menu" class="menu" style="flex-grow: 0; justify-content: flex-start; align-content: flex-start; align-items: stretch; max-height: 315%;">
+            <ui:Label text="Меню Строительства" style="color: rgb(255, 255, 255); font-size: 25px; -unity-text-align: upper-center;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

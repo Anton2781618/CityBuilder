@@ -2,6 +2,7 @@ using Domain;
 using System;
 using MessagePipe;
 using Application;
+using UnityEngine;
 
 namespace Application
 {
@@ -23,8 +24,10 @@ namespace Application
 
         public bool Execute(PlaceBuildingRequest request, BuildingCost cost, BuildingIncome income)
         {
-            if (!_grid.IsCellAvailable(request.Position)) return false;
-
+            //место занято или вне границ
+            if (!_grid.IsCellAvailable(request.Position)) return false;  
+            
+            // недостаточно золота для строительства
             if (!_economy.TrySpendGold(cost.Gold)) return false;
 
             var building = new Building(request.Type, request.Level, request.Position, cost, income);

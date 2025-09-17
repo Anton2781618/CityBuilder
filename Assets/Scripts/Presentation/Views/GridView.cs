@@ -14,9 +14,8 @@ namespace Presentation.Views
         [SerializeField] private int gridWidth = 32;
         [SerializeField] private int gridHeight = 32;
 
-
-    private readonly List<GridCellView> _cells = new();
-    private readonly Dictionary<Collider, GridCellView> _colliderToCellView = new();
+        private readonly List<GridCellView> _cells = new();
+        private readonly Dictionary<Collider, GridCellView> _colliderToCellView = new();
 
         public void Initialize(GridModel grid)
         {
@@ -48,6 +47,11 @@ namespace Presentation.Views
         public GridCellView GetCellViewByCollider(Collider collider)
         {
             return _colliderToCellView.TryGetValue(collider, out var view) ? view : null;
+        }
+
+        public GridCellView GetCellViewByGridPosition(GridPosition position)
+        {
+            return _cells.Find(c => c.GridPosition.X == position.X && c.GridPosition.Y == position.Y);
         }
 
         public void RenderGrid(GridModel grid)

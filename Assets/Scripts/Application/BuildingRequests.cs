@@ -47,5 +47,14 @@ namespace Application
     {
         public Collider HoveredCell { get; set; }
         public CellHoveredEvent(Collider hoveredCell) => HoveredCell = hoveredCell;
+    
+    }
+    /// <summary>
+    /// DTO для события клика на клетку.
+    /// </summary>
+    public class CellClickedEvent
+    {
+        public Collider ClickedCell { get; set; }
+        public CellClickedEvent(Collider clickedCell) => ClickedCell = clickedCell;
     }
 }
