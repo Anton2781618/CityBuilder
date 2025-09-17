@@ -6,11 +6,11 @@ using Domain;
 namespace Presentation.Views.UI
 {
     /// <summary>
-    /// View для HUD: отображение ресурсов и уведомлений.
+    /// View для HUD: отображение ресурсов 
     /// </summary>
-    public class HudView : MonoBehaviour
+    public class EconomyView : MonoBehaviour
     {
-        [Inject] private PlayerEconomy _economy;
+        [Inject] private Economy _economy;
         private Label _goldLabel;
         private VisualElement _root;
 

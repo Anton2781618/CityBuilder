@@ -53,7 +53,6 @@ public class UIBuildingInfoPanel : MonoBehaviour
 
     private void OnDeleteClicked()
     {
-        Debug.Log("Удаление здания: " + _currentBuilding.Type);
         if (_currentBuilding != null)
         {
             OnDeleteBuilding?.Invoke(_currentBuilding);

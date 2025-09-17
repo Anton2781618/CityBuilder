@@ -4,7 +4,6 @@ using Application;
 using Domain;
 using Presentation.Views;
 using MessagePipe;
-using UnityEditor.PackageManager.Requests;
 
 namespace Presentation.Presenters
 {
@@ -31,7 +30,6 @@ namespace Presentation.Presenters
         // UseCase
         [Inject] private PlaceBuildingUseCase _placeBuildingUseCase;
         [Inject] private RemoveBuildingUseCase _removeBuildingUseCase;
-        [Inject] private MoveBuildingUseCase _moveBuildingUseCase;
         //-------------------------------------------------------------------
         [Inject] private UIBuildMenuView _buildMenuView;
         [Inject] private UIBuildingInfoPanel _infoPanel;

@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Domain
 {
@@ -81,15 +81,38 @@ namespace Domain
     }
 
     /// <summary>
-    /// Модель игрока (ресурсы).
+    /// Модель ресурсов
     /// </summary>
-    public class PlayerEconomy
+    public class Economy
     {
-        public int Gold { get; private set; }
+    public int Gold { get; private set; }
+    public int GoldIncomePerTick { get; private set; }
 
-        public PlayerEconomy(int initialGold)
+        public Economy(int initialGold)
         {
             Gold = initialGold;
+            GoldIncomePerTick = 0;
+            StartIncomeTick();
+        }
+        public void AddIncome(int value)
+        {
+            GoldIncomePerTick += value;
+        }
+
+        public void RemoveIncome(int value)
+        {
+            GoldIncomePerTick -= value;
+            if (GoldIncomePerTick < 0) GoldIncomePerTick = 0;
+        }
+
+        private async void StartIncomeTick()
+        {
+            while (true)
+            {
+                await Cysharp.Threading.Tasks.UniTask.Delay(1000); // 1 секунда
+                if (GoldIncomePerTick > 0)
+                    AddGold(GoldIncomePerTick);
+            }
         }
 
         public bool TrySpendGold(int amount)

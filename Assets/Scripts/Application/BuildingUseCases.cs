@@ -1,8 +1,5 @@
 using Domain;
-using System;
 using MessagePipe;
-using Application;
-using UnityEngine;
 
 namespace Application
 {
@@ -12,10 +9,10 @@ namespace Application
     public class PlaceBuildingUseCase
     {
         private readonly GridModel _grid;
-        private readonly PlayerEconomy _economy;
+        private readonly Economy _economy;
         private readonly IPublisher<BuildingPlacedEvent> _publisher;
 
-        public PlaceBuildingUseCase(GridModel grid, PlayerEconomy economy, IPublisher<BuildingPlacedEvent> publisher)
+        public PlaceBuildingUseCase(GridModel grid, Economy economy, IPublisher<BuildingPlacedEvent> publisher)
         {
             _grid = grid;
             _economy = economy;
@@ -41,36 +38,6 @@ namespace Application
     }
 
     /// <summary>
-    /// UseCase: перемещение здания.
-    /// </summary>
-    public class MoveBuildingUseCase
-    {
-        private readonly GridModel _grid;
-        private readonly IPublisher<BuildingMovedEvent> _publisher;
-
-        public MoveBuildingUseCase(GridModel grid, IPublisher<BuildingMovedEvent> publisher)
-        {
-            _grid = grid;
-            _publisher = publisher;
-        }
-
-        public bool Execute(MoveBuildingRequest request)
-        {
-            var fromCell = _grid.GetCell(request.From);
-            var toCell = _grid.GetCell(request.To);
-            if (fromCell.State != CellState.Occupied || toCell.State != CellState.Empty)
-                return false;
-
-            var building = fromCell.OccupiedBuilding;
-            fromCell.RemoveBuilding();
-            building.Move(request.To);
-            toCell.PlaceBuilding(building);
-            _publisher.Publish(new BuildingMovedEvent(building, request.From, request.To));
-            return true;
-        }
-    }
-
-    /// <summary>
     /// UseCase: удаление здания.
     /// </summary>
     public class RemoveBuildingUseCase
@@ -87,10 +54,13 @@ namespace Application
         public bool Execute(RemoveBuildingRequest request)
         {
             var cell = _grid.GetCell(request.Position);
-            if (cell.State != CellState.Occupied)
-                return false;
+
+            if (cell.State != CellState.Occupied) return false;
+
             cell.RemoveBuilding();
+            
             _publisher.Publish(new BuildingRemovedEvent(request.Position));
+            
             return true;
         }
     }
@@ -101,10 +71,10 @@ namespace Application
     public class UpgradeBuildingUseCase
     {
         private readonly GridModel _grid;
-        private readonly PlayerEconomy _economy;
+        private readonly Economy _economy;
         private readonly IPublisher<BuildingUpgradedEvent> _publisher;
 
-        public UpgradeBuildingUseCase(GridModel grid, PlayerEconomy economy, IPublisher<BuildingUpgradedEvent> publisher)
+        public UpgradeBuildingUseCase(GridModel grid, Economy economy, IPublisher<BuildingUpgradedEvent> publisher)
         {
             _grid = grid;
             _economy = economy;
@@ -114,12 +84,15 @@ namespace Application
         public bool Execute(UpgradeBuildingRequest request, BuildingCost upgradeCost, BuildingIncome newIncome)
         {
             var cell = _grid.GetCell(request.Position);
-            if (cell.State != CellState.Occupied)
-                return false;
-            if (!_economy.TrySpendGold(upgradeCost.Gold))
-                return false;
+
+            if (cell.State != CellState.Occupied) return false;
+
+            if (!_economy.TrySpendGold(upgradeCost.Gold)) return false;
+
             cell.OccupiedBuilding.Upgrade(request.NewLevel, upgradeCost, newIncome);
+
             _publisher.Publish(new BuildingUpgradedEvent(cell.OccupiedBuilding));
+            
             return true;
         }
     }

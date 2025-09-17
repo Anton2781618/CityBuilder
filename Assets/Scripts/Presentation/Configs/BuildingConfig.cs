@@ -6,14 +6,15 @@ using Domain;
 public class BuildingConfig : ScriptableObject
 {
     public BuildingType Type;
-    [SerializeField] private List<LevelPrefab> _levelPrefabs;
+    [SerializeField] private List<BuildingLevelData> _levelPrefabs;
 
     [System.Serializable]
-    public class LevelPrefab
+    public class BuildingLevelData
     {
         public BuildingLevel Level;
         public GameObject Prefab;
         public int Price;
+        public int GoldPerTick; // Прирост денег за тик
     }
 
     public GameObject GetPrefab(BuildingLevel level)

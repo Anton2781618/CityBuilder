@@ -44,7 +44,7 @@ namespace Infrastructure.Installers
             builder.RegisterComponentInHierarchy<UIBuildingInfoPanel>();
             
             // Экономика 
-            builder.RegisterInstance(new PlayerEconomy(1000));
+            builder.RegisterInstance(new Economy(1000));
             
             // ввод
             builder.RegisterInstance(new InputSystem_Actions());
@@ -54,7 +54,6 @@ namespace Infrastructure.Installers
 
             // UseCases с внедрением EventPublisher
             builder.Register<PlaceBuildingUseCase>(Lifetime.Singleton);
-            builder.Register<MoveBuildingUseCase>(Lifetime.Singleton);
             builder.Register<RemoveBuildingUseCase>(Lifetime.Singleton);
             builder.Register<UpgradeBuildingUseCase>(Lifetime.Singleton);
         }

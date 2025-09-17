@@ -83,10 +83,5 @@ namespace Domain
             Level = newLevel;
             // Можно добавить логику проверки стоимости и т.д.
         }
-
-        public void Move(GridPosition newPosition)
-        {
-            Position = newPosition;
-        }
     }
 }
