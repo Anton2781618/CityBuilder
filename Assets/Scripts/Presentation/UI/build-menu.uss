@@ -1,0 +1,50 @@
+:root {
+}
+
+.panel {
+    background-color: rgba(214, 214, 214, 0);
+    align-items: center;
+    justify-content: center;
+}
+
+.hide {
+    display: flex;
+}
+
+.menu {
+    background-color: rgba(0, 0, 0, 0.6);
+    align-items: stretch;
+    width: 298px;
+    height: auto;
+    min-height: auto;
+    max-height: 315px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-top-width: 6px;
+    border-right-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+}
+
+.unity-button {
+    flex-grow: 1;
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    font-size: 39px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: rgb(77, 77, 77);
+}
+
+.unity-button:hover {
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(243, 173, 0, 0.62);
+}
